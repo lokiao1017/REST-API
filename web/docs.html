@@ -1,0 +1,712 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Y2PHEQ</title>
+		<meta
+			name="description"
+			content="Discover Y2PHEQ API's powerful and flexible solutions to enhance your applications."
+		/>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=VT323" />
+		<style>
+			:root {
+				--bg-color: #121212;
+				--text-color: #e0e0e0;
+				--accent-color: #3498db;
+				--border-color: #2c2c2c;
+				--hover-color: #1e1e1e;
+				--card-bg-color: #1a1a1a;
+			}
+			body,
+			html {
+				font-family: 'VT323', sans-serif;
+				font-size: 20px;
+				background-color: var(--bg-color);
+				color: var(--text-color);
+				line-height: 1.6;
+				margin: 0;
+				padding: 0;
+				height: 100%;
+			}
+			.container {
+				display: flex;
+				height: 100%;
+			}
+			header {
+				background-color: var(--bg-color);
+				border-bottom: 1px solid var(--border-color);
+				padding: 0.5rem 1rem;
+				position: fixed;
+				width: 100%;
+				top: 0;
+				z-index: 1000;
+				box-sizing: border-box;
+				height: 50px;
+			}
+			.header-content {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				max-width: 1200px;
+				margin: 0 auto;
+				height: 100%;
+			}
+			h1 {
+				font-size: 1.2rem;
+				font-weight: 600;
+				margin: 0;
+				flex-grow: 1;
+				text-align: center;
+				color: #FF3D00;
+			}
+			.menu-toggle,
+			.profile-photo {
+				width: 30px;
+				height: 30px;
+				padding: 0;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background: none;
+				border: none;
+				cursor: pointer;
+				color: var(--text-color);
+				font-size: 1.2rem;
+				transition: background-color 0.2s ease;
+				flex-shrink: 0;
+			}
+			.menu-toggle:hover,
+			.menu-toggle:focus,
+			.profile-photo:hover,
+			.profile-photo:focus {
+				background-color: var(--hover-color);
+			}
+			.profile-photo {
+				border-radius: 50%;
+				object-fit: cover;
+			}
+			nav {
+				width: 250px;
+				height: 100%;
+				background-color: var(--bg-color);
+				border-right: 1px solid var(--border-color);
+				position: fixed;
+				top: 50px;
+				left: 0;
+				overflow-y: auto;
+				transition: transform 0.3s ease;
+				z-index: 999;
+			}
+			.category-list {
+				list-style-type: none;
+				padding: 1rem 0;
+				margin: 0;
+			}
+			.category-button {
+				background: none;
+				border: none;
+				color: var(--text-color);
+				cursor: pointer;
+				font-size: 1rem;
+				text-align: left;
+				width: 100%;
+				padding: 0.75rem 2rem;
+				transition: background-color 0.2s ease;
+			}
+			.category-button:hover,
+			.category-button:focus {
+				background-color: var(--hover-color);
+			}
+			.category-button.active {
+				background-color: var(--hover-color);
+				font-weight: 600;
+			}
+			main {
+				flex-grow: 1;
+				padding: 2rem;
+				margin-top: 50px;
+				margin-left: 250px;
+				overflow-y: auto;
+			}
+			.api-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+				gap: 1.5rem;
+			}
+			.api-card {
+				border: 1px solid var(--border-color);
+				border-radius: 8px;
+				padding: 1.5rem;
+				transition:
+					box-shadow 0.2s ease,
+					transform 0.2s ease;
+				background-color: var(--card-bg-color);
+				word-wrap: break-word;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+			.api-card:hover {
+				box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+				transform: translateY(-2px);
+			}
+			.api-name {
+				font-size: 1.2rem;
+				font-weight: 600;
+				margin-bottom: 0.75rem;
+				color: #f1f2f3;
+			}
+			api-alias {
+				font-size: 0.80rem;
+				font-weight: 600;
+				margin-bottom: 0.75rem;
+				color: #b0b0b0;
+				letter-spacing: 3px;
+			}
+			.api-description {
+				font-size: 0.95rem;
+				color: #f1f2f3;
+				margin-bottom: 1.25rem;
+			}
+			.api-method {
+				font-size: 0.80rem;
+				color: #87CEEB;
+				font-weight: 600;
+				margin-bottom: 0.75rem;
+				text-transform: uppercase;
+			}
+			api-category {
+				font-size: 0.85rem;
+				color: #FF3D30;
+				font-weight: 600;
+				margin-bottom: 0.75rem;
+				text-transform: uppercase;
+			}
+			.link-button {
+				background-color: #0a0a0a;
+				color: #ffffff;
+				padding: 0.6rem 1.2rem;
+				border-radius: 4px;
+				text-decoration: none;
+				font-size: 0.95rem;
+				font-weight: 500;
+				transition:
+					background-color 0.2s ease,
+					transform 0.2s ease;
+				display: inline-block;
+			}
+			.link-button:hover,
+			.link-button:focus {
+				background-color: #388391;
+				transform: translateY(-1px);
+			}
+			.stats-card {
+				background-color: var(--card-bg-color);
+				border: 1px solid var(--border-color);
+				border-radius: 8px;
+				padding: 1.5rem;
+				margin-bottom: 2rem;
+			}
+			.stats-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+				gap: 1rem;
+			}
+			.stat-item {
+				display: flex;
+				flex-direction: column;
+			}
+			.stat-label {
+				color: #b0b0b0;
+				margin-bottom: 0.25rem;
+				font-size: 0.9rem;
+			}
+			.stat-value {
+				font-weight: 600;
+				color: var(--accent-color);
+				font-size: 0.9rem;
+				word-break: break-word;
+			}
+			.loading-container {
+				display: none;
+				justify-content: center;
+				align-items: center;
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background-color: rgba(18, 18, 18, 0.8);
+				z-index: 2000;
+			}
+			.spinner {
+				width: 50px;
+				height: 50px;
+				border: 10px solid #f1f1f0;
+				border-top: 3px solid transparent;
+				border-radius: 200%;
+				animation: spin 2s linear infinite;
+			}
+			@keyframes spin {
+				0% {
+					transform: rotate(0deg);
+				}
+				100% {
+					transform: rotate(360deg);
+				}
+			}
+			@media (max-width: 768px) {
+				nav {
+					transform: translateX(-100%);
+				}
+				nav.open {
+					transform: translateX(0);
+				}
+				main {
+					margin-left: 0;
+					padding: 1rem;
+					margin-top: 50px;
+				}
+			}
+
+.loader {
+    color: #fff;
+    font-family: VT323, Consolas, Menlo, Monaco, monospace;
+    font-weight: bold;
+    font-size: 30px;
+    opacity: 0.8;
+  }
+  .loader:before {
+    content: "{";
+    color: #FF3D30;
+    display: inline-block;
+    animation: pulse 0.8s 0.7s alternate infinite ease-in-out;
+  }
+  .loader:after {
+    content: "}";
+    display: inline-block;
+    animation: pulse 0.7s 0.6s alternate infinite ease-in-out;
+  }
+
+  @keyframes pulse {
+    to {
+      transform: scale(0.8);
+      opacity: 0.5;
+    }
+  }
+      code {
+        color: #FF3D03;
+      }
+      
+      .y2mark{
+    position: relative;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+  }
+  .y2mark:before {
+    content: "SHEESH!";
+    color: #fff;
+  }
+  .y2mark:after {
+    content: "";
+    width: 20px;
+    height: 20px;
+    background-color: #ff3d00;
+    border-radius: 50%;
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    top: -70px;
+    animation: motion 3s ease-in-out infinite;
+  }
+
+  @keyframes motion {
+    0%, 50%, 100% {
+      transform: translateX(0) scale(1);
+    }
+    25% {
+      transform: translateX(-100px) scale(0.3);
+    }
+    75% {
+      transform: translateX(100px) scale(0.3);
+    }
+  }
+  
+		</style>
+	</head>
+	<body>
+		<div class="loading-container" id="loading-spinner">
+			<span class="loader"> Y2PHEQ API </span>
+		</div>
+		<div class="container">
+			<header>
+				<div class="header-content">
+					<button
+						id="menu-toggle"
+						class="menu-toggle"
+						aria-label="Toggle menu"
+						></button
+					>
+					<h2> <span class="loader"> Y2PHEQ API </span></h2>
+					<img
+						src="https://graph.facebook.com/100021164715672/picture?height=720&width=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662"
+						alt="Profile"
+						class="profile-photo"
+						id="profile-photo"
+					/>
+				</div>
+			</header>
+
+			<nav id="sidebar">
+				<ul class="category-list" id="category-list"></ul>
+			</nav>
+
+			<main id="main-content"></main>
+		</div>
+
+		<script>
+			const menuToggle = document.getElementById('menu-toggle');
+			const sidebar = document.getElementById('sidebar');
+			const mainContent = document.getElementById('main-content');
+			const categoryList = document.getElementById('category-list');
+			const loadingSpinner = document.getElementById('loading-spinner');
+
+			let currentCategory = 'home';
+			let currentScroll = 0;
+
+			menuToggle.addEventListener('click', () => {
+				sidebar.classList.toggle('open');
+				menuToggle.setAttribute(
+					'aria-expanded',
+					sidebar.classList.contains('open'),
+				);
+			});
+
+			const capitalizeFirstLetter = string =>
+				string.charAt(0).toUpperCase() + string.slice(1);
+
+			function showLoading() {
+				loadingSpinner.style.display = 'flex';
+				document.body.style.overflow = 'hidden';
+			}
+
+			function hideLoading() {
+				loadingSpinner.style.display = 'none';
+				document.body.style.overflow = '';
+			}
+
+			async function fetchWithTimeout(resource, options = {}) {
+				const {timeout = 8000} = options;
+				const controller = new AbortController();
+				const id = setTimeout(() => controller.abort(), timeout);
+				try {
+					const response = await fetch(resource, {
+						...options,
+						signal: controller.signal,
+					});
+					clearTimeout(id);
+					return response;
+				} catch (error) {
+					clearTimeout(id);
+					throw error;
+				}
+			}
+
+			async function initializeDashboard() {
+				showLoading();
+				try {
+					const [apiListResponse, statsResponse] = await Promise.all([
+						fetchWithTimeout('/api-list'),
+						fetchWithTimeout('/api-stats'),
+					]);
+
+					if (!apiListResponse.ok || !statsResponse.ok) {
+						throw new Error('Failed to fetch data');
+					}
+
+					const apis = await apiListResponse.json();
+					const stats = await statsResponse.json();
+					const groupedApis = apis.reduce((acc, api) => {
+						const category = api.category || 'Uncategorized';
+						(acc[category] = acc[category] || []).push(api);
+						return acc;
+					}, {});
+					setupCategoryNavigation(groupedApis, stats);
+					newHomePage(apis);
+				} catch (error) {
+					console.error('Failed to fetch data:', error);
+					showErrorMessage();
+				} finally {
+					hideLoading();
+				}
+			}
+
+			function setupCategoryNavigation(groupedApis, stats) {
+				const categories = ['Home', ...Object.keys(groupedApis).sort()];
+				categoryList.innerHTML = categories
+					.map(
+						category =>
+							`<li><button class="category-button" data-category="${category.toLowerCase()}">${capitalizeFirstLetter(
+								category,
+							)}</button></li>`,
+					)
+					.join('');
+
+				categoryList.addEventListener('click', e => {
+					if (e.target.classList.contains('category-button')) {
+						const category = e.target.dataset.category;
+						document
+							.querySelectorAll('.category-button')
+							.forEach(btn => btn.classList.remove('active'));
+						e.target.classList.add('active');
+
+						currentScroll = window.scrollY;
+						currentCategory = category;
+
+						if (category === 'home') {
+							newHomePage(apis);
+						} else {
+							showCategoryApis(category, groupedApis[category]);
+						}
+
+						if (window.innerWidth <= 768) {
+							sidebar.classList.remove('open');
+							menuToggle.setAttribute('aria-expanded', 'false');
+						}
+					}
+				});
+			}
+
+			function showHomePage(stats, groupedApis) {
+				const totalApis = stats.totalApis;
+				const totalCategories = Object.keys(groupedApis).length;
+
+				mainContent.innerHTML = `
+                <h2>Welcome to Y2PHEQ API</h2>
+                <p>Explore our APIs by clicking on the categories in the sidebar to find the one you need.</p>
+                
+                <div class="stats-card">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-label">Browser CodeName</div>
+                            <div class="stat-value">${
+								stats.browserCodeName || 'N/A'
+							}</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Browser Name</div>
+                            <div class="stat-value">${
+								stats.browserName || 'N/A'
+							}</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Browser Language</div>
+                            <div class="stat-value">${
+								stats.browserLanguage || 'N/A'
+							}</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Cookies Enabled</div>
+                            <div class="stat-value">${
+								stats.cookie || 'N/A'
+							}</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Browser Online</div>
+                            <div class="stat-value">${
+								stats.browserOnline || 'N/A'
+							}</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Platform</div>
+                            <div class="stat-value">${
+								stats.platform || 'N/A'
+							}</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">User Agent</div>
+                            <div class="stat-value">${
+								stats.userAgent || 'N/A'
+							}</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">IP Address</div>
+                            <div class="stat-value">${
+								stats.ipAddress || 'N/A'
+							}</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Date</div>
+                            <div class="stat-value">${stats.date || 'N/A'}</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Time</div>
+                            <div class="stat-value" id="live-time">${
+								stats.time || 'N/A'
+							}</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Total APIs</div>
+                            <div class="stat-value">${totalApis || 'N/A'}</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Total Categories</div>
+                            <div class="stat-value">${
+								totalCategories || 'N/A'
+							}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+				updateTime(stats.time);
+			}
+
+			function updateTime(initialTime) {
+				const timeElement = document.getElementById('live-time');
+				if (!timeElement) return;
+
+				let [hours, minutes, seconds] = initialTime
+					.split(':')
+					.map(Number);
+
+				function updateClock() {
+					seconds++;
+					if (seconds >= 60) {
+						seconds = 0;
+						minutes++;
+						if (minutes >= 60) {
+							minutes = 0;
+							hours++;
+							if (hours >= 24) {
+								hours = 0;
+							}
+						}
+					}
+
+					const timeString = `${String(hours).padStart(
+						2,
+						'0',
+					)}:${String(minutes).padStart(2, '0')}:${String(
+						seconds,
+					).padStart(2, '0')}`;
+					timeElement.textContent = timeString;
+				}
+
+				updateClock();
+				setInterval(updateClock, 1000);
+			}
+
+			function showCategoryApis(category, apis) {
+				mainContent.innerHTML = `
+				
+				<div class="api-grid">
+                    ${apis
+						.map(
+							api => `
+                        <div class="api-card">
+                            <div class="api-name">${capitalizeFirstLetter(
+								api.name,
+							)} <api-category> ${api.category} </api-method> <api-alias><br>${api.alias}</api-alias></div>
+							
+                            <div class="api-description">${
+								api.description
+							}</div>
+							<div class="api-method">${api.conversational || ``}</div>
+                            <a href="${
+								api.usage[0]
+							}" class="link-button" data-api-link>TRY THIS</a>
+                        </div>
+                    `,
+						)
+						.join('')}
+                </div>
+            `;
+
+				// Add event listeners to API links
+				document.querySelectorAll('[data-api-link]').forEach(link => {
+					link.addEventListener('click', handleApiLinkClick);
+				});
+			}
+
+			function newHomePage(apis) {
+				mainContent.innerHTML = `
+				<h1> <span class="y2mark"></span> </h1>
+				
+				<div class="api-grid">
+                    ${apis
+						.map(
+							api => `
+                        <div class="api-card">
+                            <div class="api-name">${capitalizeFirstLetter(
+								api.name,
+							)} <api-category> ${api.category} </api-method> <api-alias><br>${api.alias}</api-alias></div>
+							
+                            <div class="api-description">${
+								api.description
+							}</div>
+							<div class="api-method">${api.conversational || ``}</div>
+                            <a href="${
+								api.usage[0]
+							}" class="link-button" data-api-link>TRY THIS</a>
+                        </div>
+                    `,
+						)
+						.join('')}
+                </div>
+            `;
+
+				// Add event listeners to API links
+				document.querySelectorAll('[data-api-link]').forEach(link => {
+					link.addEventListener('click', handleApiLinkClick);
+				});
+			}
+
+			function handleApiLinkClick(event) {
+				event.preventDefault();
+				const apiUrl = event.target.href;
+
+				// Store the current state
+				localStorage.setItem('lastCategory', currentCategory);
+				localStorage.setItem('lastScroll', window.scrollY);
+
+				// Navigate to the API
+				window.location.href = apiUrl;
+			}
+
+			function showErrorMessage() {
+				mainContent.innerHTML = `
+                <h2>Error</h2>
+                <p>We're sorry, but there was an error loading the API information. Please try again later.</p>
+            `;
+			}
+
+			window.addEventListener('load', () => {
+				initializeDashboard();
+
+				// Check if returning from an API view
+				const lastCategory = localStorage.getItem('lastCategory');
+				const lastScroll = localStorage.getItem('lastScroll');
+
+				if (lastCategory) {
+					currentCategory = lastCategory;
+					document
+						.querySelector(`[data-category="${lastCategory}"]`)
+						.click();
+
+					if (lastScroll) {
+						setTimeout(() => {
+							window.scrollTo(0, parseInt(lastScroll, 10));
+						}, 100);
+					}
+
+					// Clear the stored data
+					localStorage.removeItem('lastCategory');
+					localStorage.removeItem('lastScroll');
+				}
+			});
+		</script>
+	</body>
+</html>

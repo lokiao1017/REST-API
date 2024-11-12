@@ -1,0 +1,31 @@
+{
+	"name": "api",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "node index.js"
+	},
+	"keywords": [],
+	"license": "ISC",
+	"dependencies": {
+		"@types/node": "^x.x.x",
+		"axios": "^x.x.x",
+		"betabotz-tools": "^0.0.7",
+		"cheerio": "^1.0.0-rc.12",
+		"express": "^x.x.x",
+		"fs": "^0.0.1-security",
+		"fs-extra": "^11.2.0",
+		"g4f": "^1.4.3",
+		"kleur": "^4.1.5",
+		"path": "^x.x.x",
+		"request": "^2.88.2",
+		"unlimited-ai": "^x.x.x",
+		"useragent": "^x.x.x",
+		"openai": "^x.x.x",
+		"deepinfra": "^x.x.x",
+		"stream": "^x.x.x",
+		"url": "^x.x.x",
+		"@google/generative-ai": "^x.x.x"
+	}
+}

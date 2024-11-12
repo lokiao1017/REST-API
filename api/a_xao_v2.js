@@ -1,19 +1,20 @@
-const fs = require('fs');
-const path = require('path');
 const {
 	GoogleGenerativeAI,
 	HarmCategory,
 	HarmBlockThreshold,
 } = require('@google/generative-ai');
-const {GoogleAIFileManager} = require('@google/generative-ai/server'); // Import FileManager
+const {GoogleAIFileManager} = require('@google/generative-ai/server');
+const {v4: uuidv4} = require('uuid'); // Import UUID library
 
 const apiKey = 'AIzaSyCHe25egkb18PYHKwjGCPdJmplb9Hvwp4Q';
 const genAI = new GoogleGenerativeAI(apiKey);
-const fileManager = new GoogleAIFileManager(apiKey); // Initialize FileManager
+const fileManager = new GoogleAIFileManager(apiKey);
+
+const MAX_HISTORY = 20; // Maximum conversation history length
 
 exports.config = {
 	name: 'XaoaiBETA',
-	alias: 'XAOIMG-BTA7-06-12',
+	alias: 'XAO-BTA7-06-12',
 	author: 'KALIX AO',
 	description:
 		'Integrated from the known Artificial intelligence with special tweaks to make it more advantageous to the user. This is still under development so expect some blunders while using this.',
@@ -23,50 +24,17 @@ exports.config = {
 };
 
 exports.initialize = async function ({req, res}) {
-	const XAO_FILE = path.join(__dirname, './assets/history.json');
-	// Create the directory if it doesn't exist
-	const dir = path.dirname(XAO_FILE);
-	if (!fs.existsSync(dir)) {
-		fs.mkdirSync(dir, {recursive: true});
-	}
+	const conversations = new Map(); // Use Map for conversation storage
 
-	const XAO_LOAD = () => {
-		if (fs.existsSync(XAO_FILE)) {
-			try {
-				return JSON.parse(fs.readFileSync(XAO_FILE, 'utf8'));
-			} catch (error) {
-				console.error('Error parsing XAO_FILE:', error);
-				return {}; // Return empty object on parsing error
-			}
-		} else {
-			// Create initial data if file doesn't exist.  Crucial!
-			return {};
-		}
-	};
+	const uid = req.query.uid || uuidv4(); // Generate UID if not provided
 
-	const SAVED_XAO = conversations => {
-		try {
-			fs.writeFileSync(
-				XAO_FILE,
-				JSON.stringify(conversations, null, 2),
-				'utf8',
-			);
-		} catch (error) {
-			console.error('Error writing to XAO_FILE:', error);
-		}
-	};
-
-	const uid = req.query.uid;
-	let prompt = req.query.prompt; // Changed to let for potential modification
-  let imageURL = req.query.imageURL;
+	let prompt = req.query.prompt;
+	let imageURL = req.query.imageURL;
 
 	if (!prompt) {
 		return res.status(400).json({error: 'Missing prompt parameter'});
 	}
 
-	const conversations = XAO_LOAD();
-
-	//Handle file uploads if present
 	let uploadedFiles = [];
 	if (req.files && req.files.length > 0) {
 		for (const file of req.files) {
@@ -76,7 +44,6 @@ exports.initialize = async function ({req, res}) {
 					displayName: file.name,
 				});
 				uploadedFiles.push(uploadedFile.file);
-				// Construct the prompt with file URIs
 				prompt += ` ${uploadedFile.file.uri}`;
 			} catch (uploadError) {
 				console.error('Error uploading file:', uploadError);
@@ -86,12 +53,11 @@ exports.initialize = async function ({req, res}) {
 	}
 
 	if (prompt.toLowerCase() === 'clear') {
-		delete conversations[uid];
-		SAVED_XAO(conversations);
+		conversations.delete(uid);
 		return res.json({result: 'Conversation cleared.'});
 	}
 
-	const history = conversations[uid] || [];
+	let history = conversations.get(uid) || [];
 
 	try {
 		let model = genAI.getGenerativeModel({
@@ -203,24 +169,19 @@ exports.initialize = async function ({req, res}) {
 			});
 		}
 
-		conversations[uid] = [
-			...history,
-			{
-				role: 'user',
-				parts: userMessageParts,
-			},
-			{
-				role: 'model',
-				parts: [
-					{
-						text: resp,
-					},
-				],
-			},
-		];
+		// IMPORTANT: Update history handling using Map and MAX_HISTORY
+		const newHistoryEntry = {
+			role: 'user',
+			parts: userMessageParts,
+		};
+		const newModelResponse = {
+			role: 'model',
+			parts: [{text: resp}],
+		};
+		history = history.concat(newHistoryEntry, newModelResponse);
+		history = history.slice(-MAX_HISTORY); // Limit history length
 
-		SAVED_XAO(conversations);
-		console.log(result.response.text());
+		conversations.set(uid, history);
 
 		res.json({
 			author: 'KALIX AO (Y2PHEQ)',

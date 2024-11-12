@@ -13,7 +13,7 @@ const fileManager = new GoogleAIFileManager(apiKey); // Initialize FileManager
 
 exports.config = {
 	name: 'XaoaiBETA',
-	alias: 'XAOIMG-BTA7-06-12',
+	alias: 'XAO-BTA7-06-12',
 	author: 'KALIX AO',
 	description:
 		'Integrated from the known Artificial intelligence with special tweaks to make it more advantageous to the user. This is still under development so expect some blunders while using this.',
@@ -30,7 +30,6 @@ exports.initialize = async function ({req, res}) {
 		fs.mkdirSync(dir, {recursive: true});
 	}
 
-	const MAX_CONVERSATION_LENGTH = 20; // Define max conversation length
 	const XAO_LOAD = () => {
 		if (fs.existsSync(XAO_FILE)) {
 			try {
@@ -59,7 +58,7 @@ exports.initialize = async function ({req, res}) {
 
 	const uid = req.query.uid;
 	let prompt = req.query.prompt; // Changed to let for potential modification
-	let imageURL = req.query.imageURL;
+  let imageURL = req.query.imageURL;
 
 	if (!prompt) {
 		return res.status(400).json({error: 'Missing prompt parameter'});
@@ -92,8 +91,7 @@ exports.initialize = async function ({req, res}) {
 		return res.json({result: 'Conversation cleared.'});
 	}
 
-	let history = conversations[uid] || [];
-	history = history.slice(-MAX_CONVERSATION_LENGTH);
+	const history = conversations[uid] || [];
 
 	try {
 		let model = genAI.getGenerativeModel({
@@ -205,18 +203,21 @@ exports.initialize = async function ({req, res}) {
 			});
 		}
 
-		conversations[uid] = history.concat([
+		conversations[uid] = [
+			...history,
 			{
 				role: 'user',
 				parts: userMessageParts,
 			},
 			{
 				role: 'model',
-				parts: [{text: resp}],
+				parts: [
+					{
+						text: resp,
+					},
+				],
 			},
-		]);
-
-		conversations[uid] = conversations[uid].slice(-MAX_CONVERSATION_LENGTH); // Limit here
+		];
 
 		SAVED_XAO(conversations);
 		console.log(result.response.text());

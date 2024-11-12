@@ -26,6 +26,7 @@
 		"deepinfra": "^x.x.x",
 		"stream": "^x.x.x",
 		"url": "^x.x.x",
+		"uuid": "^x.x.x",
 		"@google/generative-ai": "^x.x.x"
 	}
 }

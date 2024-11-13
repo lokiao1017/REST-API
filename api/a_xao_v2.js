@@ -55,7 +55,7 @@ exports.initialize = async function ({req, res}) {
 		});
 
 		const chatSession = model.startChat({
-			history: conversation,
+			history: [...conversation],
 		});
 		const result = await chatSession.sendMessage(prompt);
 		const responseText = result.response.text();

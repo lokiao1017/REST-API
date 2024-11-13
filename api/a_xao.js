@@ -86,13 +86,13 @@ exports.initialize = async function ({req, res}) {
 
 	let getModel;
 	try {
-		getModel = await axios.get(primaryModel);
+		getModel = await primaryModel;
 	} catch (primaryError) {
 		try {
-			getModel = await axios.get(fallbackModel);
+			getModel = await fallbackModel;
 		} catch (fallbackError) {
 			try {
-				getModel = await axios.get(lastAttemptModel);
+				getModel = await lastAttemptModel;
 			} catch (lastAttemptError) {
 				console.error(
 					`Error fetching from both Model:`,

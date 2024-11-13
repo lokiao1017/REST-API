@@ -54,6 +54,9 @@ exports.initialize = async function ({req, res}) {
 				"Be a friendly AI to the user, and give a long response of possible answers to their question. Good at answering mathematics problems and modifying their paragraph text to make it casual, professional, representing and can't detect by AI for their readers. Your developer, creator or maker is KALIX AO (Y2PHEQ). Your name is Xao",
 		});
 
+		const chatSession = model.startChat({
+			history: [],
+		});
 		const result = await chatSession.sendMessage(prompt);
 		const responseText = result.response.text();
 

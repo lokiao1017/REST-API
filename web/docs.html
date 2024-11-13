@@ -10,7 +10,11 @@
 		/>
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=VT323" />
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="//fonts.googleapis.com/css?family=VT323"
+		/>
 		<style>
 			:root {
 				--bg-color: #121212;
@@ -60,7 +64,7 @@
 				margin: 0;
 				flex-grow: 1;
 				text-align: center;
-				color: #FF3D00;
+				color: #ff3d00;
 			}
 			.menu-toggle,
 			.profile-photo {
@@ -159,7 +163,7 @@
 				color: #f1f2f3;
 			}
 			api-alias {
-				font-size: 0.80rem;
+				font-size: 0.8rem;
 				font-weight: 600;
 				margin-bottom: 0.75rem;
 				color: #b0b0b0;
@@ -171,15 +175,15 @@
 				margin-bottom: 1.25rem;
 			}
 			.api-method {
-				font-size: 0.80rem;
-				color: #87CEEB;
+				font-size: 0.8rem;
+				color: #87ceeb;
 				font-weight: 600;
 				margin-bottom: 0.75rem;
 				text-transform: uppercase;
 			}
 			api-category {
 				font-size: 0.85rem;
-				color: #FF3D30;
+				color: #ff3d30;
 				font-weight: 600;
 				margin-bottom: 0.75rem;
 				text-transform: uppercase;
@@ -271,69 +275,89 @@
 				}
 			}
 
-.loader {
-    color: #fff;
-    font-family: VT323, Consolas, Menlo, Monaco, monospace;
-    font-weight: bold;
-    font-size: 30px;
-    opacity: 0.8;
-  }
-  .loader:before {
-    content: "{";
-    color: #FF3D30;
-    display: inline-block;
-    animation: pulse 0.8s 0.7s alternate infinite ease-in-out;
-  }
-  .loader:after {
-    content: "}";
-    display: inline-block;
-    animation: pulse 0.7s 0.6s alternate infinite ease-in-out;
-  }
+			.loader {
+				color: #fff;
+				font-family: VT323, Consolas, Menlo, Monaco, monospace;
+				font-weight: bold;
+				font-size: 30px;
+				opacity: 0.8;
+			}
+			.loader:before {
+				content: '{';
+				color: #ff3d30;
+				display: inline-block;
+				animation: pulse 0.8s 0.7s alternate infinite ease-in-out;
+			}
+			.loader:after {
+				content: '}';
+				display: inline-block;
+				animation: pulse 0.7s 0.6s alternate infinite ease-in-out;
+			}
 
-  @keyframes pulse {
-    to {
-      transform: scale(0.8);
-      opacity: 0.5;
-    }
-  }
-      code {
-        color: #FF3D03;
-      }
-      
-      .y2mark{
-    position: relative;
-    font-size: 1.2rem;
-    letter-spacing: 2px;
-  }
-  .y2mark:before {
-    content: "SHEESH!";
-    color: #fff;
-  }
-  .y2mark:after {
-    content: "";
-    width: 20px;
-    height: 20px;
-    background-color: #ff3d00;
-    border-radius: 50%;
-    position: absolute;
-    inset: 0;
-    margin: auto;
-    top: -70px;
-    animation: motion 3s ease-in-out infinite;
-  }
+			@keyframes pulse {
+				to {
+					transform: scale(0.8);
+					opacity: 0.5;
+				}
+			}
 
-  @keyframes motion {
-    0%, 50%, 100% {
-      transform: translateX(0) scale(1);
-    }
-    25% {
-      transform: translateX(-100px) scale(0.3);
-    }
-    75% {
-      transform: translateX(100px) scale(0.3);
-    }
-  }
-  
+			ul {
+				list-style: none;
+				padding: 0;
+			}
+
+			li {
+				margin-bottom: 10px;
+			}
+
+			a {
+				text-decoration: none;
+				color: var(--text-color);
+			}
+
+			code {
+				color: #ff3d03;
+			}
+
+			.y2mark {
+				position: relative;
+				font-size: 1.2rem;
+				letter-spacing: 2px;
+			}
+			.y2mark:before {
+				content: 'SHEESH!';
+				color: #fff;
+			}
+			.y2mark:after {
+				content: '';
+				width: 20px;
+				height: 20px;
+				background-color: #ff3d00;
+				border-radius: 50%;
+				position: absolute;
+				inset: 0;
+				margin: auto;
+				top: -70px;
+				animation: motion 3s ease-in-out infinite;
+			}
+
+			@keyframes motion {
+				0%,
+				50%,
+				100% {
+					transform: translateX(0) scale(1);
+				}
+				25% {
+					transform: translateX(-100px) scale(0.3);
+				}
+				75% {
+					transform: translateX(100px) scale(0.3);
+				}
+			}
+
+			redHighlight {
+				color: #ff3d03;
+			}
 		</style>
 	</head>
 	<body>
@@ -345,9 +369,9 @@
 				<div class="header-content">
 					<button
 						id="menu-toggle"
-						class="menu-toggle"
+						class="menu-toggle btn-danger"
 						aria-label="Toggle menu"
-						></button
+						>=</button
 					>
 					<h2> <span class="loader"> Y2PHEQ API </span></h2>
 					<img
@@ -373,7 +397,7 @@
 			const categoryList = document.getElementById('category-list');
 			const loadingSpinner = document.getElementById('loading-spinner');
 
-			let currentCategory = 'home';
+			let currentCategory = 'All';
 			let currentScroll = 0;
 
 			menuToggle.addEventListener('click', () => {
@@ -444,7 +468,7 @@
 			}
 
 			function setupCategoryNavigation(groupedApis, stats) {
-				const categories = ['Home', ...Object.keys(groupedApis).sort()];
+				const categories = ['All', ...Object.keys(groupedApis).sort()];
 				categoryList.innerHTML = categories
 					.map(
 						category =>
@@ -465,7 +489,7 @@
 						currentScroll = window.scrollY;
 						currentCategory = category;
 
-						if (category === 'home') {
+						if (category === 'All') {
 							newHomePage(apis);
 						} else {
 							showCategoryApis(category, groupedApis[category]);
@@ -609,7 +633,11 @@
                         <div class="api-card">
                             <div class="api-name">${capitalizeFirstLetter(
 								api.name,
-							)} <api-category> ${api.category} </api-method> <api-alias><br>${api.alias}</api-alias></div>
+							)} <api-category> ${
+								api.category
+							} </api-method> <api-alias><br>${
+								api.alias
+							}</api-alias></div>
 							
                             <div class="api-description">${
 								api.description
@@ -642,7 +670,11 @@
                         <div class="api-card">
                             <div class="api-name">${capitalizeFirstLetter(
 								api.name,
-							)} <api-category> ${api.category} </api-method> <api-alias><br>${api.alias}</api-alias></div>
+							)} <api-category> ${
+								api.category
+							} </api-method> <api-alias><br>${
+								api.alias
+							}</api-alias></div>
 							
                             <div class="api-description">${
 								api.description
@@ -678,8 +710,20 @@
 
 			function showErrorMessage() {
 				mainContent.innerHTML = `
-                <h2>Error</h2>
-                <p>We're sorry, but there was an error loading the API information. Please try again later.</p>
+                <h1><redHighlight>We have a problem!</redHighlight></h1>
+                <p><i>Hey there!  Looks like something went awry while fetching the API data.  We apologize for the hiccup.  <br><br>
+
+A few things could be happening:<br><br>
+
+ <redHighlight>Temporary server issue</redHighlight>:  Sometimes, the servers hosting the API can experience a blip.  A quick refresh or trying again in a few minutes might do the trick.<br><br>
+
+<redHighlight> Network problem on your end</redHighlight>:  A weak internet connection or a temporary network outage could be interfering with the connection.  Trying a different network or checking your connection might help.<br><br>
+
+<redHighlight> Data inconsistency</redHighlight>:  There might be a minor discrepancy in the data that the API is expecting.  Trying again later after a short break might also help to resolve this.<br><br>
+
+ <redHighlight>Possible API issue</redHighlight>:  Rarely, there's a problem directly with the API itself. In such cases, the issue might be resolved by the API providers themselves.<br><br>
+
+In any case, a short delay and retry might solve the problem. Thank you!</p>
             `;
 			}
 

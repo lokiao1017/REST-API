@@ -10,12 +10,13 @@ const genAI = new GoogleGenerativeAI(apiKey);
 
 exports.config = {
 	name: 'Xaoai',
-	alias: "XaoAi-Chtbot-1.5",
+	alias: 'XaoAi-Chtbot-1.5',
 	author: 'KALIX AO',
-	description: 'Integrated from the known Artificial intelligence with special tweaks to make it more advantageous to the user. This is still under development so expect some blunders while using this.',
+	description:
+		'Integrated from the known Artificial intelligence with special tweaks to make it more advantageous to the user. This is still under development so expect some blunders while using this.',
 	category: 'text-generation',
 	usage: ['/xaoai?prompt=hello'],
-	conversational: `Add the UID query parameter to make it conversational`
+	conversational: `Add the UID query parameter to make it conversational`,
 };
 
 exports.initialize = async function ({req, res}) {
@@ -70,28 +71,45 @@ exports.initialize = async function ({req, res}) {
 	const history = conversations[uid] || [];
 
 	const models = [
-		'gemini-1.5-pro-exp-0827',
-		'gemini-1.5-flash-exp-0827',
-		'gemini-1.5-flash-8b-exp-0924',
+		'gemini-1.5-flash',
+		'gemini-1.5-flash-002',
+		'gemini-1.5-pro-002',
 		'gemini-1.5-flash-8b',
+		'gemini-1.5-pro',
 	];
 	const catchModel = models[Math.floor(Math.random() * models.length)];
 
+	const primaryModel = catchModel;
+	const fallbackModel = catchModel;
+	const lastAttemptModel = catchModel;
+
+	let getModel;
+	try {
+		getModel = await axios.get(primaryModel);
+	} catch (primaryError) {
+		try {
+			getModel = await axios.get(fallbackModel);
+		} catch (fallbackError) {
+			try {
+				getModel = await axios.get(lastAttemptModel);
+			} catch (lastAttemptError) {
+				console.error(
+					`Error fetching from both Model:`,
+					primaryError,
+					fallbackError,
+					lastAttemptError,
+				);
+				return; // Stop execution to avoid sending another message below
+			}
+		}
+	}
+
 	try {
 		let model = genAI.getGenerativeModel({
-			model: 'gemini-1.5-pro',
+			model: getModel,
 			systemInstruction:
 				"Be a friendly AI to the user, and give a long response of possible answers to their question. Good at answering mathematics problems and modifying their paragraph text to make it casual, professional, representing and can't detect by AI for their readers. Your developer, creator or maker is KALIX AO (Y2PHEQ). Your name is Xao",
 		});
-
-		const generationConfig = {
-			temperature: 1,
-			topP: 0.95,
-			topK: 40,
-			maxOutputTokens: 8192,
-			stopSequences: ['clear'],
-			responseMimeType: 'text/plain',
-		};
 
 		const chatSession = model.startChat({
 			history: history,

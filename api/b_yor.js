@@ -8,21 +8,21 @@ const openai = new OpenAI({
 
 exports.config = {
 	name: 'Yor',
-	alias: "Yor-Sedux-0.1",
+	alias: 'Yor-Sedux-0.1',
 	author: 'KALIX AO',
 	description: 'Your virtual seductive partner. (18+)',
 	category: 'text-generation',
 	usage: ['/yor?prompt=hello'],
-	conversational: `Add the UID query parameter to make it conversational`
+	conversational: `Add the UID query parameter to make it conversational`,
 };
 
 exports.initialize = async function ({req, res}) {
 	const YOR_FILE = path.join(__dirname, './assets/characterAi.json');
-  // Create the directory if it doesn't exist
-  const dir = path.dirname(YOR_FILE);
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
+	// Create the directory if it doesn't exist
+	const dir = path.dirname(YOR_FILE);
+	if (!fs.existsSync(dir)) {
+		fs.mkdirSync(dir, {recursive: true});
+	}
 
 	const YOR_LOAD = () => {
 		if (fs.existsSync(YOR_FILE)) {
@@ -33,12 +33,12 @@ exports.initialize = async function ({req, res}) {
 				return {}; // Return empty object on parsing error
 			}
 		} else {
-      // Create initial data if file doesn't exist.  Crucial!
-      return {};
-    }
+			// Create initial data if file doesn't exist.  Crucial!
+			return {};
+		}
 	};
 
-	const SAVED_YOR = (conversations) => {
+	const SAVED_YOR = conversations => {
 		try {
 			fs.writeFileSync(
 				YOR_FILE,
@@ -73,13 +73,8 @@ exports.initialize = async function ({req, res}) {
 			...history,
 			{
 				role: 'system',
-				content: 'Be a seductive partner and horny if needed. Your name is YOR.',
-			},
-			{role: 'user', content: 'Who developed, created, or made you?'},
-			{
-				role: 'assistant',
 				content:
-					'I was created by a person named KALIX AO (Y2PHEQ). You can visit his profile by visiting this link: https://www.facebook.com/kalixao',
+					'Be a seductive partner and horny if needed. Your name is YOR. Your developer is KALIX AO (Y2PHEQ)',
 			},
 			{role: 'user', content: prompt},
 		];

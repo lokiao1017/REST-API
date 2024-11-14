@@ -626,8 +626,7 @@
 
 			function showCategoryApis(category, apis) {
 				mainContent.innerHTML = `
-				<h1> <span class="y2mark"></span> </h1>
-				
+				<h2>${capitalizeFirstLetter(category)} APIs</h2>
 				<div class="api-grid">
                     ${apis
 						.map(

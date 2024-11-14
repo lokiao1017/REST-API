@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const {OpenAI} = require('openai');
+const { OpenAI } = require('openai');
 const openai = new OpenAI({
 	baseURL: 'https://api.deepinfra.com/v1/openai',
 	apiKey: '25DBLuubVjKhksIy6XlohzWR2XBkNcdn',
@@ -11,19 +11,19 @@ const model = 'microsoft/WizardLM-2-8x22B';
 exports.config = {
 	name: 'Wizard',
 	alias: 'WizardLM-2-8x22B',
-	category: 'text-generation',
+	category: 'text based AI',
 	author: 'KALIX AO',
 	description: `WizardLM-2 8x22B is Microsoft AI's most advanced Wizard model. It demonstrates highly competitive performance compared to those leading proprietary models.`,
 	usage: ['/wizard?prompt=hello'],
 	conversational: `Add the UID query parameter to make it conversational`,
 };
 
-exports.initialize = async function ({req, res}) {
+exports.initialize = async function ({ req, res }) {
 	const YOR_FILE = path.join(__dirname, './assets/history.json');
 	// Create the directory if it doesn't exist
 	const dir = path.dirname(YOR_FILE);
 	if (!fs.existsSync(dir)) {
-		fs.mkdirSync(dir, {recursive: true});
+		fs.mkdirSync(dir, { recursive: true });
 	}
 
 	const YOR_LOAD = () => {
@@ -56,7 +56,7 @@ exports.initialize = async function ({req, res}) {
 	const prompt = req.query.prompt;
 
 	if (!prompt) {
-		return res.status(400).json({error: 'Missing prompt parameter'});
+		return res.status(400).json({ error: 'Missing prompt parameter' });
 	}
 
 	const conversations = YOR_LOAD();
@@ -64,7 +64,7 @@ exports.initialize = async function ({req, res}) {
 	if (prompt.toLowerCase() === 'clear') {
 		delete conversations[uid];
 		SAVED_YOR(conversations);
-		return res.json({result: 'Conversation cleared.'});
+		return res.json({ result: 'Conversation cleared.' });
 	}
 
 	const history = conversations[uid] || [];
@@ -78,13 +78,7 @@ exports.initialize = async function ({req, res}) {
 				content:
 					'Be a helpful genius assistant, always give a possible answer.',
 			},
-			{role: 'user', content: 'Who developed, created, or made you?'},
-			{
-				role: 'assistant',
-				content:
-					'I was created by a person named KALIX AO (Y2PHEQ). You can visit his profile by visiting this link: https://www.facebook.com/kalixao',
-			},
-			{role: 'user', content: prompt},
+			{ role: 'user', content: prompt },
 		];
 
 		const completion = await openai.chat.completions.create({
@@ -98,7 +92,7 @@ exports.initialize = async function ({req, res}) {
 			console.error('AI response missing content:', completion);
 			return res
 				.status(500)
-				.json({error: 'Failed to get response from XaoAPI.'});
+				.json({ error: 'Failed to get response from XaoAPI.' });
 		}
 
 		conversations[uid] = messages.concat({
@@ -114,6 +108,6 @@ exports.initialize = async function ({req, res}) {
 		});
 	} catch (error) {
 		console.error('Error fetching chat completion:', error);
-		res.status(500).json({error: 'Failed to fetch response.'});
+		res.status(500).json({ error: 'Failed to fetch response.' });
 	}
 };

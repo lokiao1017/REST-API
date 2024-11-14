@@ -11,11 +11,11 @@ const genAI = new GoogleGenerativeAI(apiKey);
 
 exports.config = {
 	name: 'Xaoai',
-	alias: 'XaoAi-Chtbot-1.5',
+	alias: 'XaoAi-CustomModel-1.5',
 	author: 'KALIX AO',
 	description:
 		'Integrated from the known Artificial intelligence with special tweaks to make it more advantageous to the user. This is still under development so expect some blunders while using this.',
-	category: 'text-generation',
+	category: 'text based AI',
 	usage: ['/xaoai?prompt=hello'],
 	conversational: `Add the UID query parameter to make it conversational`,
 };

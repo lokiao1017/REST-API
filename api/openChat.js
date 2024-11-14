@@ -11,7 +11,7 @@ exports.config = {
 	alias: "OpenChat-3.5",
 	author: 'KALIX AO',
 	description: 'OpenChat is a library of open-source language models that have been fine-tuned with C-RLFT, a strategy inspired by offline reinforcement learning.',
-	category: 'text-generation',
+	category: 'text based AI',
 	usage: ['/openchat?prompt=hello'],
 	conversational: `Add the UID query parameter to make it conversational`
 };

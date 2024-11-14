@@ -11,7 +11,7 @@ const model = "meta-llama/Meta-Llama-3.1-70B-Instruct";
 exports.config = {
 	name: 'Meta',
 	alias: 'Meta-Llama-3.1-70B-Instruct',
-	category: 'text-generation',
+	category: 'text based AI',
 	author: 'KALIX AO',
 	description: 'Meta developed and released the Meta Llama 3.1 family of large language models (LLMs), a collection of pretrained and instruction tuned generative text models in 8B, 70B and 405B sizes.',
 	usage: ['/meta?prompt=hello'],

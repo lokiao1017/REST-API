@@ -6,7 +6,7 @@ const { green, blue, cyan } = require('kleur');
 try {
   let n = 0;
   const srcPath = path.join(__dirname, "/api/");
-  const apiFiles = readdirSync(srcPath && srcPath_ph).filter(file => file.endsWith(".js"));
+  const apiFiles = readdirSync(srcPath ).filter(file => file.endsWith(".js"));
 
   for (const file of apiFiles) {
     const filePath = path.join(srcPath, file);

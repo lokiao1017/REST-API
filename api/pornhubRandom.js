@@ -2,12 +2,12 @@ const fs = require('fs');
 const cheerio = require('cheerio');
 
 exports.config = {
-	name: 'Pornhub',
+	name: 'Random',
 	alias: 'Random Video',
 	category: 'Pornhub',
 	author: 'KALIX AO',
 	description: `Get random video from pornhub.`,
-	usage: ['/pornhub/random'],
+	usage: ['/random'],
 	conversational: `Not suitable for minor.`,
 };
 
@@ -30,7 +30,7 @@ exports.initialize = async function ({ req, res }) {
 		const randomVideo = videos[Math.floor(Math.random() * videos.length)];
 		res.json(randomVideo);
 	} catch (error) {
-		console.error('Error fetching chat completion:', error);
+		console.error('[X]: ', error);
 		res.status(500).json({ error: 'Failed to fetch response.' });
 	}
 };

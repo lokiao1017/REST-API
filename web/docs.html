@@ -490,7 +490,7 @@
 						currentScroll = window.scrollY;
 						currentCategory = category;
 
-						if (category === 'All') {
+						if (category === 'all') {
 							newHomePage(apis);
 						} else {
 							showCategoryApis(category, groupedApis[category]);
@@ -626,6 +626,7 @@
 
 			function showCategoryApis(category, apis) {
 				mainContent.innerHTML = `
+				<h1> <span class="y2mark"></span> </h1>
 				
 				<div class="api-grid">
                     ${apis
@@ -646,7 +647,7 @@
 							<div class="api-method">${api.conversational || ``}</div>
                             <a href="${
 								api.usage[0]
-							}" class="link-button" data-api-link>TRY THIS</a>
+							}" class="link-button" data-api-link> >> </a>
                         </div>
                     `,
 						)
@@ -683,7 +684,7 @@
 							<div class="api-method">${api.conversational || ``}</div>
                             <a href="${
 								api.usage[0]
-							}" class="link-button" data-api-link>TRY THIS</a>
+							}" class="link-button" data-api-link> >> </a>
                         </div>
                     `,
 						)

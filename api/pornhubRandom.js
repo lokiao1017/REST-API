@@ -2,12 +2,12 @@ const fs = require('fs');
 const cheerio = require('cheerio');
 
 exports.config = {
-	name: 'Random',
+	name: 'Pornhub',
 	alias: 'Random Video',
 	category: 'Pornhub',
 	author: 'KALIX AO',
 	description: `Get random video from pornhub.`,
-	usage: ['/random'],
+	usage: ['/pornhub/random'],
 	conversational: `Not suitable for minor.`,
 };
 

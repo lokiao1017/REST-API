@@ -6,11 +6,10 @@ const { green, blue, cyan } = require('kleur');
 try {
   let n = 0;
   const srcPath = path.join(__dirname, "/api/");
-  const srcPath_ph = path.join(__dirname, "/api/pornhub");
   const apiFiles = readdirSync(srcPath && srcPath_ph).filter(file => file.endsWith(".js"));
 
   for (const file of apiFiles) {
-    const filePath = path.join(srcPath && srcPath, file);
+    const filePath = path.join(srcPath, file);
     const script = require(filePath);
     if (script.config && script.initialize) {
       const routePath = '/' + script.config.name;

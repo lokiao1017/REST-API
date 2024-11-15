@@ -3,7 +3,7 @@ const path = require('path');
 const {OpenAI} = require('openai');
 const openai = new OpenAI({
 	baseURL: 'https://api.deepinfra.com/v1/openai',
-	apiKey: '25DBLuubVjKhksIy6XlohzWR2XBkNcdn',
+	apiKey: 'zjM1NAAUhXhpFpzN9lkvZEiXkpJH7jBd',
 });
 
 exports.config = {

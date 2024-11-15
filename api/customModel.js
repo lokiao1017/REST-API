@@ -66,7 +66,7 @@ exports.initialize = async function ({ req, res }) {
 	try {
 		// Define the system prompt
 		const systemPrompt =
-			"I'm just a fluffy feline friend of KALIX AO. I'm quite good at understanding what you're asking!";
+			"You're just a fluffy feline friend of KALIX AO. I'm quite good at understanding what you're asking!";
 
 		// Generate a response using gpt-4 model
 		const response = await ai.generate(

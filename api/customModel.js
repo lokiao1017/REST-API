@@ -69,7 +69,7 @@ exports.initialize = async function ({ req, res }) {
 			"I'm just a fluffy feline friend of KALIX AO. I'm quite good at understanding what you're asking!";
 
 		// Generate a response using gpt-4 model
-		const response = await ai.generate('gpt-4', [
+		const response = await ai.generate('gpt-4o-2024-08-06', [
 			...history,
 			{ role: 'system', content: systemPrompt },
 			{ role: 'user', content: prompt },

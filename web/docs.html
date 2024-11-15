@@ -459,7 +459,7 @@
 						return acc;
 					}, {});
 					setupCategoryNavigation(groupedApis, stats);
-					newHomePage(apis);
+					newHomePage(apis, groupedApis);
 				} catch (error) {
 					console.error('Failed to fetch data:', error);
 					showErrorMessage();
@@ -491,7 +491,7 @@
 						currentCategory = category;
 
 						if (category === 'all') {
-							newHomePage(apis);
+							newHomePage(apis, groupedApis);
 						} else {
 							showCategoryApis(category, groupedApis[category]);
 						}

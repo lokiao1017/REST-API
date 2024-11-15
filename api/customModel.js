@@ -1,4 +1,6 @@
 const ai = require('unlimited-ai');
+const fs = require('fs');
+const path = require('path');
 
 exports.config = {
 	name: 'Cat',
